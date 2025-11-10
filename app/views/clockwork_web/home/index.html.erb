@@ -48,6 +48,10 @@
         background-color: pink;
       }
 
+      .warning {
+        background-color: #fff3cd;
+      }
+
       .width-15 {
         width: 15%;
       }
@@ -85,14 +89,20 @@
             <th class="width-15">Period</th>
             <th class="width-15">Implementation block</th>
             <th class="width-15">Last Run</th>
+            <th class="width-15">Should have run</th>
             <th class="width-15">Actions</th>
           </tr>
         </thead>
         <tbody>
           <% @events.each do |event| %>
             <% enabled = !@disabled.include?(event.job) %>
-            <tr class="<%= enabled ? "" : "disabled" %>">
-              <td><%= event.job %></td>
+            <tr class="<%= [enabled ? nil : 'disabled', (enabled && overdue?(event, @last_runs[event.job])) ? 'warning' : nil].compact.join(' ') %>">
+              <td>
+                <%= event.job %>
+                <% if enabled && overdue?(event, @last_runs[event.job]) %>
+                  &nbsp;<span title="Overdue">⚠️</span>
+                <% end %>
+              </td>
               <td>
                 <%= friendly_period(event.instance_variable_get(:@period)) %>
                 <% at = event.instance_variable_get(:@at) %>
@@ -114,6 +124,11 @@
                 <% end %>
               </td>
               <td><%= last_run(@last_runs[event.job]) %></td>
+              <td>
+                <% if enabled && overdue?(event, @last_runs[event.job]) %>
+                  <%= friendly_should_have_run(event, @last_runs[event.job]) %>
+                <% end %>
+              </td>
               <td>
                 <%= button_to enabled ? "Disable" : "Enable", home_job_path(job: event.job, enable: !enabled), disabled: !ClockworkWeb.redis, form_class: 'button-form' %>
                 <%= button_to "Run now", home_execute_path(job: event.job), disabled: !ClockworkWeb.redis, form_class: 'button-form' %>

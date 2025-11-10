@@ -26,6 +26,21 @@ module ClockworkWeb
       end
     end
 
+    def overdue?(event, last_run)
+      ClockworkWeb.overdue?(event, last_run)
+    end
+
+    def should_have_run_at(event, last_run)
+      ClockworkWeb.should_have_run_at(event, last_run)
+    end
+
+    def friendly_should_have_run(event, last_run)
+      at = should_have_run_at(event, last_run)
+      if at
+        "#{time_ago_in_words(at, include_seconds: true)} ago"
+      end
+    end
+
     def friendly_extract_source_from_callable(callable, with_affixes: true)
       iseq = RubyVM::InstructionSequence.of(callable)
       source =

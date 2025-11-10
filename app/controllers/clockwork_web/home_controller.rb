@@ -8,10 +8,15 @@ module ClockworkWeb
     http_basic_authenticate_with name: ENV["CLOCKWORK_USERNAME"], password: ENV["CLOCKWORK_PASSWORD"] if ENV["CLOCKWORK_PASSWORD"]
 
     def index
+      @last_runs = ClockworkWeb.last_runs
+      @disabled = ClockworkWeb.disabled_jobs
       @events =
         Clockwork.manager.instance_variable_get(:@events).sort_by do |e|
           at = e.instance_variable_get(:@at)
+          enabled = !@disabled.include?(e.job)
+          overdue = enabled && ClockworkWeb.overdue?(e, @last_runs[e.job])
           [
+            overdue ? 0 : 1, # prioritize overdue first
             e.instance_variable_get(:@period),
             (at && at.instance_variable_get(:@hour)) || -1,
             (at && at.instance_variable_get(:@min)) || -1,
@@ -19,8 +24,6 @@ module ClockworkWeb
           ]
         end
 
-      @last_runs = ClockworkWeb.last_runs
-      @disabled = ClockworkWeb.disabled_jobs
       @last_heartbeat = ClockworkWeb.last_heartbeat
     end
 
@@ -41,7 +44,7 @@ module ClockworkWeb
 
       event = Clockwork.manager.events.find { _1.job == params[:job] }
 
-      event.run(Time.now)
+      event.run(Time.now.utc)
       ClockworkWeb.set_last_run(event.job)
 
       redirect_to root_path
