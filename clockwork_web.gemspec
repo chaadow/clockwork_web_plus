@@ -1,14 +1,14 @@
-require_relative "lib/clockwork_web/version"
+require_relative "lib/clockwork_web_plus/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "clockwork_web"
-  spec.version       = ClockworkWeb::VERSION
-  spec.summary       = "A web interface for Clockwork"
-  spec.homepage      = "https://github.com/ankane/clockwork_web"
+  spec.name          = "clockwork_web_plus"
+  spec.version       = ClockworkWebPlus::VERSION
+  spec.summary       = "A modern web interface for Clockwork with search, run-now & health checks"
+  spec.homepage      = "https://github.com/chedli/clockwork_web_plus"
   spec.license       = "MIT"
 
-  spec.author        = "Andrew Kane"
-  spec.email         = "andrew@ankane.org"
+  spec.authors       = ["Andrew Kane", "Chedli Bourguiba"]
+  spec.email         = ["bourguiba.chedli@gmail.com"]
 
   spec.files         = Dir["*.{md,txt}", "{app,config,lib}/**/*"]
   spec.require_path  = "lib"

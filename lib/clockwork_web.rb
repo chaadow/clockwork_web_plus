@@ -131,8 +131,8 @@ module ClockworkWeb
 
     events = Clockwork.manager.events
     last_runs = ClockworkWeb.last_runs
-    overdue = ClockworkWeb.overdue_details(events, last_runs)
-    ClockworkWeb.on_health_check.call(overdue: overdue) if overdue.any?
+    overdue_jobs = ClockworkWeb.overdue_details(events, last_runs)
+    ClockworkWeb.on_health_check.call(overdue_jobs: overdue_jobs) if overdue_jobs.any?
   end
 
   # Returns the last time this event should have run before now.
