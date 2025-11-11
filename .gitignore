@@ -13,3 +13,4 @@
 *.a
 *.log
 /test/internal/tmp/
+/tags
