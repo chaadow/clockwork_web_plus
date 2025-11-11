@@ -6,137 +6,465 @@
     <meta charset="utf-8" />
 
     <%= content_tag :style, nonce: request.content_security_policy_nonce_directives&.include?("style-src") ? content_security_policy_nonce : nil do %>
+      :root {
+        --bg: #f6f7fb;
+        --card-bg: #ffffff;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e5e7eb;
+        --primary: #2563eb;
+        --primary-600: #1d4ed8;
+        --success: #16a34a;
+        --warning-50: #fff7ed;
+        --warning-600: #d97706;
+        --danger-50: #fef2f2;
+        --danger-600: #dc2626;
+        --disabled-50: #f8fafc;
+      }
+
+      html, body {
+        height: 100%;
+      }
+
       body {
         font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
         margin: 0;
         padding: 20px;
         font-size: 14px;
-        line-height: 1.4;
-        color: #333;
+        line-height: 1.5;
+        color: var(--text);
+        background:
+          radial-gradient(60rem 60rem at 120% -10%, #c7d2fe 0%, transparent 40%),
+          radial-gradient(50rem 50rem at -20% -20%, #bae6fd 0%, transparent 35%),
+          var(--bg);
       }
 
-      a, a:visited, a:active {
-        color: #428bca;
-        text-decoration: none;
+      .container {
+        max-width: none;
+        width: 100%;
+        margin: 0;
       }
 
-      a:hover {
-        text-decoration: underline;
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow:
+          0 1px 2px rgba(0,0,0,0.04),
+          0 10px 20px rgba(2,6,23,0.04);
+        overflow: hidden;
+      }
+
+      .header {
+        padding: 20px 20px 8px 20px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(248,250,252,0.7), rgba(255,255,255,1));
+      }
+
+      .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      .badge.success {
+        color: var(--success);
+        border-color: rgba(22,163,74,0.18);
+        background: #f0fdf4;
+      }
+
+      .badge.warn {
+        color: var(--warning-600);
+        border-color: rgba(217,119,6,0.18);
+        background: #fffbeb;
+      }
+
+      .badge.info {
+        color: var(--muted);
+        background: #f8fafc;
+      }
+
+      .toolbar {
+        padding: 12px 20px 16px 20px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .search {
+        position: relative;
+        flex: 1 1 320px;
+        max-width: 420px;
+      }
+
+      .search input {
+        width: 100%;
+        padding: 10px 12px 10px 34px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        outline: none;
+        transition: box-shadow .15s ease, border-color .15s ease;
+      }
+
+      .search input:focus {
+        border-color: rgba(37,99,235,0.5);
+        box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+      }
+
+      .search .icon {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .table-wrap {
+        padding: 0 0 8px 0;
+        overflow-x: auto;
       }
 
       table {
         width: 100%;
         border-collapse: collapse;
         border-spacing: 0;
-        margin-bottom: 20px;
+        background: #fff;
       }
 
-      th {
+      thead th {
         text-align: left;
-        border-bottom: solid 2px #ddd;
+        font-weight: 700;
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: .02em;
+        text-transform: uppercase;
+        background: #f9fafb;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 12px;
+        white-space: nowrap;
       }
 
-      table td, table th {
-        padding: 8px;
+      tbody td {
+        padding: 12px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
       }
 
-      td {
-        border-top: solid 1px #ddd;
+      tbody tr:hover {
+        background: #f8fafc;
       }
 
-      .disabled {
-        background-color: pink;
+      .row-disabled {
+        background: var(--danger-50);
       }
 
-      .warning {
-        background-color: #fff3cd;
+      .row-warning {
+        background: var(--warning-50);
+      }
+
+      tbody tr.row-disabled:hover {
+        background: var(--danger-50);
+      }
+
+      tbody tr.row-warning:hover {
+        background: var(--warning-50);
       }
 
       .width-15 {
         width: 15%;
       }
 
+      details summary {
+        cursor: pointer;
+        color: var(--muted);
+      }
+
       .button-form {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+        vertical-align: middle;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        line-height: 1.2;
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        cursor: pointer;
+        font-weight: 600;
+        transition: box-shadow .15s ease, border-color .15s ease, background .15s ease;
+      }
+
+      .btn:hover {
+        background: #f8fafc;
+      }
+
+      .btn:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+      }
+
+      .btn-primary {
+        border-color: rgba(37,99,235,0.3);
+        background: #eff6ff;
+        color: var(--primary-600);
+      }
+
+      .btn-primary:hover {
+        background: #dbeafe;
+      }
+
+      .btn-danger {
+        border-color: rgba(220, 38, 38, 0.25);
+        background: var(--danger-50);
+        color: var(--danger-600);
+      }
+
+      .btn-danger:hover {
+        background: #fee2e2;
+      }
+
+      .meta {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .empty {
+        padding: 16px 20px;
+        color: var(--muted);
+        display: none;
+      }
+
+      td[data-col="actions"] {
+        white-space: nowrap;
+      }
+
+      .button-form + .button-form {
+        margin-left: 8px;
       }
     <% end %>
   </head>
   <body>
     <div class="container">
-      <% if ClockworkWeb.redis %>
-        <% if ClockworkWeb.monitor %>
-          <% if ClockworkWeb.multiple? %>
-            <p>Multiple clockwork processes detected</p>
-          <% elsif ClockworkWeb.running? %>
-            <p>Clockwork is running</p>
-          <% else %>
-            <p>
-              Clockwork is not running
-              <% if @last_heartbeat %>
-                - last heartbeat was <%= time_ago_in_words(@last_heartbeat) %> ago
+      <div class="card">
+        <div class="header">
+          <div class="title-row">
+            <h1>Clockwork Jobs</h1>
+            <div class="status">
+              <% if ClockworkWeb.redis %>
+                <% if ClockworkWeb.monitor %>
+                  <% if ClockworkWeb.multiple? %>
+                    <span class="badge warn" title="Multiple processes are updating heartbeat">Multiple processes</span>
+                  <% elsif ClockworkWeb.running? %>
+                    <span class="badge success" title="Heartbeat received recently">Running</span>
+                  <% else %>
+                    <span class="badge" style="color: var(--muted)" title="No recent heartbeat">Stopped</span>
+                    <% if @last_heartbeat %>
+                      <span class="meta">Last heartbeat <%= time_ago_in_words(@last_heartbeat) %> ago</span>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <span class="badge info">Redis not configured • monitoring/actions disabled</span>
               <% end %>
-            </p>
-          <% end %>
-        <% end %>
-      <% else %>
-        <p>Add Redis for monitoring and disabling jobs</p>
-      <% end %>
+            </div>
+          </div>
+        </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th class="width-15">Job</th>
-            <th class="width-15">Period</th>
-            <th class="width-15">Implementation block</th>
-            <th class="width-15">Last Run</th>
-            <th class="width-15">Should have run</th>
-            <th class="width-15">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @events.each do |event| %>
-            <% enabled = !@disabled.include?(event.job) %>
-            <tr class="<%= [enabled ? nil : 'disabled', (enabled && overdue?(event, @last_runs[event.job])) ? 'warning' : nil].compact.join(' ') %>">
-              <td>
-                <%= event.job %>
-                <% if enabled && overdue?(event, @last_runs[event.job]) %>
-                  &nbsp;<span title="Overdue">⚠️</span>
-                <% end %>
-              </td>
-              <td>
-                <%= friendly_period(event.instance_variable_get(:@period)) %>
-                <% at = event.instance_variable_get(:@at) %>
-                <% if at %>
-                  at <%= friendly_time_part(at.instance_variable_get(:@hour)) %>:<%= friendly_time_part(at.instance_variable_get(:@min)) %>
-                <% end %>
-                <% if if_lambda = event.instance_variable_get(:@if) %>
-                  if: -> <%= friendly_extract_source_from_callable(if_lambda)%>
-                <% end %>
-              </td>
-              <td>
-                <% if block = event.instance_variable_get(:@block) %>
-                  <details>
-                    <summary>Click to see implementation</summary>
-                    {
-                    <%= friendly_extract_source_from_callable(block, with_affixes: false) %>
-                    }
-                  </details>
-                <% end %>
-              </td>
-              <td><%= last_run(@last_runs[event.job]) %></td>
-              <td>
-                <% if enabled && overdue?(event, @last_runs[event.job]) %>
-                  <%= friendly_should_have_run(event, @last_runs[event.job]) %>
-                <% end %>
-              </td>
-              <td>
-                <%= button_to enabled ? "Disable" : "Enable", home_job_path(job: event.job, enable: !enabled), disabled: !ClockworkWeb.redis, form_class: 'button-form' %>
-                <%= button_to "Run now", home_execute_path(job: event.job), disabled: !ClockworkWeb.redis, form_class: 'button-form' %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+        <div class="toolbar">
+          <div class="search">
+            <span class="icon">🔎</span>
+            <input id="jobs-search" type="search" placeholder="Search jobs, schedules, or conditions…" aria-label="Filter jobs" autofocus />
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="jobs-table">
+            <thead>
+              <tr>
+                <th class="width-15">Job</th>
+                <th class="width-15">Schedule</th>
+                <th class="width-15">Implementation</th>
+                <th class="width-15">Last run</th>
+                <th class="width-15">Should have run</th>
+                <th class="width-15">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @events.each do |event| %>
+                <% enabled = !@disabled.include?(event.job) %>
+                <% is_overdue = (enabled && overdue?(event, @last_runs[event.job])) %>
+                <tr class="<%= [enabled ? nil : 'row-disabled', is_overdue ? 'row-warning' : nil].compact.join(' ') %>">
+                  <td data-col="job">
+                    <strong><%= event.job %></strong>
+                    <% if is_overdue %>
+                      &nbsp;<span title="Overdue">⚠️</span>
+                    <% end %>
+                    <% unless enabled %>
+                      <div class="meta">Disabled</div>
+                    <% end %>
+                  </td>
+                  <td data-col="schedule">
+                    <%= friendly_period(event.instance_variable_get(:@period)) %>
+                    <% at = event.instance_variable_get(:@at) %>
+                    <% if at %>
+                      <span class="meta">at <%= friendly_time_part(at.instance_variable_get(:@hour)) %>:<%= friendly_time_part(at.instance_variable_get(:@min)) %></span>
+                    <% end %>
+                    <% if if_lambda = event.instance_variable_get(:@if) %>
+                      <div class="meta">if: -> <%= friendly_extract_source_from_callable(if_lambda)%></div>
+                    <% end %>
+                  </td>
+                  <td data-col="impl">
+                    <% if block = event.instance_variable_get(:@block) %>
+                      <details>
+                        <summary>View implementation</summary>
+                        {
+                        <%= friendly_extract_source_from_callable(block, with_affixes: false) %>
+                        }
+                      </details>
+                    <% else %>
+                      <span class="meta">-</span>
+                    <% end %>
+                  </td>
+                  <td data-col="last"><%= last_run(@last_runs[event.job]) || content_tag(:span, '-', class: 'meta') %></td>
+                  <td data-col="should">
+                    <% if is_overdue %>
+                      <%= friendly_should_have_run(event, @last_runs[event.job]) %>
+                    <% else %>
+                      <span class="meta">-</span>
+                    <% end %>
+                  </td>
+                  <td data-col="actions">
+                    <%= button_to(enabled ? "Disable" : "Enable",
+                                  home_job_path(job: event.job, enable: !enabled),
+                                  disabled: !ClockworkWeb.redis,
+                                  form_class: 'button-form',
+                                  class: enabled ? 'btn btn-danger' : 'btn') %>
+                    <%= button_to "Run now",
+                                  home_execute_path(job: event.job),
+                                  disabled: !ClockworkWeb.redis,
+                                  form_class: 'button-form',
+                                  class: 'btn btn-primary' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div id="no-results" class="empty">No jobs match your search.</div>
+        </div>
+      </div>
     </div>
+
+    <%= content_tag :script, nonce: request.content_security_policy_nonce_directives&.include?("script-src") ? content_security_policy_nonce : nil do %>
+      document.addEventListener('DOMContentLoaded', function () {
+        var input = document.getElementById('jobs-search');
+        var table = document.getElementById('jobs-table');
+        if (!input || !table) return;
+
+        var tbody = table.tBodies[0];
+        var rows = Array.prototype.slice.call(tbody.rows);
+        var emptyState = document.getElementById('no-results');
+
+        try { input.focus({ preventScroll: true }); } catch (e) { try { input.focus(); } catch (_) {} }
+
+        function normalize(text) {
+          return (text || '').toString().toLowerCase();
+        }
+
+        function stripNonAlnum(text) {
+          return text.replace(/[^a-z0-9]/g, '');
+        }
+
+        // Returns true if all chars of needle appear in order within haystack
+        function fuzzyIncludes(haystack, needle) {
+          if (!needle) return true;
+          var i = 0, j = 0;
+          while (i < haystack.length && j < needle.length) {
+            if (haystack.charCodeAt(i) === needle.charCodeAt(j)) {
+              j++;
+            }
+            i++;
+          }
+          return j === needle.length;
+        }
+
+        function rowMatches(row, query) {
+          if (!query) return true;
+          var text = normalize(row.textContent);
+          // direct substring match across the row
+          if (text.indexOf(query) !== -1) return true;
+
+          // fuzzy match only against the job name to reduce false positives
+          var jobCell = row.querySelector('[data-col="job"]');
+          if (!jobCell) return false;
+          var jobText = normalize(jobCell.textContent);
+
+          var qNorm = stripNonAlnum(query);
+          if (qNorm.length < 3) {
+            // for very short queries, avoid fuzzy to prevent over-matching
+            return jobText.indexOf(query) !== -1;
+          }
+          return fuzzyIncludes(stripNonAlnum(jobText), qNorm);
+        }
+
+        function applyFilter() {
+          var q = normalize(input.value.trim());
+          var visible = 0;
+          rows.forEach(function (row) {
+            if (rowMatches(row, q)) {
+              row.style.display = '';
+              visible += 1;
+            } else {
+              row.style.display = 'none';
+            }
+          });
+          if (emptyState) {
+            emptyState.style.display = visible === 0 ? 'block' : 'none';
+          }
+        }
+
+        input.addEventListener('input', applyFilter);
+      });
+    <% end %>
   </body>
 </html>
