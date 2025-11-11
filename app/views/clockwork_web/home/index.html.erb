@@ -108,6 +108,12 @@
         background: #fffbeb;
       }
 
+      .badge.danger {
+        color: var(--danger-600);
+        border-color: rgba(220,38,38,0.18);
+        background: var(--danger-50);
+      }
+
       .badge.info {
         color: var(--muted);
         background: #f8fafc;
@@ -337,11 +343,11 @@
                 <tr class="<%= [enabled ? nil : 'row-disabled', is_overdue ? 'row-warning' : nil].compact.join(' ') %>">
                   <td data-col="job">
                     <strong><%= event.job %></strong>
-                    <% if is_overdue %>
-                      &nbsp;<span title="Overdue">⚠️</span>
-                    <% end %>
                     <% unless enabled %>
-                      <div class="meta">Disabled</div>
+                      &nbsp;<span class="badge danger" title="Job is disabled">Disabled</span>
+                    <% end %>
+                    <% if is_overdue %>
+                      &nbsp;<span class="badge warn" title="Job is overdue">Overdue</span>
                     <% end %>
                   </td>
                   <td data-col="schedule">

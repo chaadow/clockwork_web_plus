@@ -1,3 +1,14 @@
+## 1.0.0 (2025-11-11)
+
+- New: Fuzzy find search across jobs
+- New: "Run now" — run any job immediately from the index page
+- New: View the Ruby implementation of each job
+- New: Highlight overdue jobs at a glance
+- New: Hourly health check callback via `ClockworkWebPlus.on_health_check`, with detailed overdue context
+- New: Redesigned jobs table with a sleeker, modern UI
+
+Note: Versions prior to 1.0.0 (0.x.y) correspond to the original `clockwork_web` project by ankane. See `https://github.com/ankane/clockwork_web`.
+
 ## 0.3.1 (2024-09-04)
 
 - Improved CSP support
