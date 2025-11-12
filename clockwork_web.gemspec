@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.name          = "clockwork_web_plus"
   spec.version       = ClockworkWebPlus::VERSION
   spec.summary       = "A modern web interface for Clockwork with search, run-now & health checks"
-  spec.homepage      = "https://github.com/chedli/clockwork_web_plus"
+  spec.homepage      = "https://github.com/chaadow/clockwork_web_plus"
   spec.license       = "MIT"
 
   spec.authors       = ["Andrew Kane", "Chedli Bourguiba"]
@@ -12,6 +12,13 @@ Gem::Specification.new do |spec|
 
   spec.files         = Dir["*.{md,txt}", "{app,config,lib}/**/*"]
   spec.require_path  = "lib"
+
+  spec.metadata = {
+    'bug_tracker_uri'   => 'https://github.com/chaadow/clockwork_web_plus/issues',
+    'changelog_uri'     => 'https://github.com/chaadow/clockwork_web_plus/blob/master/CHANGELOG.md',
+    'homepage_uri'      => spec.homepage,
+    'source_code_uri'   => 'https://github.com/chaadow/clockwork_web_plus',
+  }
 
   spec.required_ruby_version = ">= 3.1"
 
